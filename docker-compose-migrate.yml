@@ -1,0 +1,47 @@
+version: '3.8'
+services:
+  aspace:
+    container_name: 'aspace'
+    entrypoint: /bin/bash
+    command: "/archivesspace/scripts/setup-database.sh"
+    ports:
+      - 19120:8080
+      - 19121:8081
+      - 19123:8089
+      - 19124:8082
+      - 19125:8091
+      - 19126:8888
+    build:
+        context: './'
+        dockerfile: 'Dockerfile.local'
+    depends_on:
+        - "db"
+    environment:
+        - ASPACE_JAVA_XMX=-Xmx12000m
+    env_file:
+        - "./local.env"
+    volumes:
+        - ./data:/archivesspace/data
+        - ./logs:/archivesspace/logs
+        - ./config.rb:/archivesspace/config/config.rb
+        # - /docker/aspace/aspace/config/migration_check:/archivesspace/migration_check
+    networks:
+        - aspace-local
+
+  db:
+    container_name: aspace_db
+    image: mysql:8.0
+    command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
+    ports:
+        - "3306:3306"
+    environment:
+        - MYSQL_ROOT_PASSWORD=password
+        - MYSQL_DATABASE=archivesspace
+        - MYSQL_USER=as
+        - MYSQL_PASSWORD=as123
+    networks:
+        - aspace-local
+
+networks:
+    aspace-local:
+        name: aspace-local
