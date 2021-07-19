@@ -7,7 +7,7 @@ RUN apt install -y git
 
 ENV ARCHIVESSPACE_VERSION="v2.5.2"
 ENV ARCHIVESSPACE_GIT_REPO="https://github.com/archivesspace/archivesspace/releases/download/"
-ENV MYSQL_CONNECT_VERSION="8.0.23"
+ENV MYSQL_CONNECT_VERSION="5.1.34"
 
 # Get our archive from Maven.
 RUN cd / && \

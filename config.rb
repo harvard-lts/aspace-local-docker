@@ -11,7 +11,8 @@
 ###
 #
 ## Set your database name and credentials here.  Example:
-AppConfig[:db_url] = "jdbc:mysql://aspace_db:3306/archivesspace?user=root&password=password&useUnicode=true&characterEncoding=UTF-8"
+# AppConfig[:db_url] = "jdbc:mysql://db:3306/archivesspace?user=root&password=password&useUnicode=true&characterEncoding=UTF-8"
+AppConfig[:db_url] = "jdbc:mysql://db:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123"
 # AppConfig[:db_url] = "jdbc:mysql://aspace_db:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true"
 
 ## Set the maximum number of database connections used by the application.
@@ -368,57 +369,57 @@ AppConfig[:pui_indexer_thread_count] = 1
 ## Note - any changes to record_inheritance config will require a reindex of pui
 ## records to take affect. To do this remove files from indexer_pui_state
 
-AppConfig[:record_inheritance] = {
-  :archival_object => {
-    :inherited_fields => [
-                          {
-                            :property => 'title',
-                            :inherit_directly => true
-                          },
-                          {
-                            :property => 'component_id',
-                            :inherit_directly => false
-                          },
-                          {
-                            :property => 'lang_materials',
-                            :inherit_directly => true
-                          },
-                          {
-                            :property => 'dates',
-                            :inherit_directly => true
-                          },
-                          {
-                            :property => 'extents',
-                            :inherit_directly => true
-                          },
-                          {
-                            :property => 'linked_agents',
-                            :inherit_if => proc {|json| json.select {|j| j['role'] == 'creator'} },
-                            :inherit_directly => false
-                          },
-                          {
-                            :property => 'notes',
-                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'accessrestrict'} },
-                            :inherit_directly => false
-                          },
-                          {
-                            :property => 'notes',
-                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'scopecontent'} },
-                            :inherit_directly => false
-                          },
-                          {
-                            :property => 'notes',
-                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'langmaterial'} },
-                            :inherit_directly => false
-                          },
-                          {
-                            :property => 'notes',
-                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'physloc'} },
-                            :inherit_directly => false
-                          },
-                         ]
-  }
-}
+# AppConfig[:record_inheritance] = {
+#   :archival_object => {
+#     :inherited_fields => [
+#                           {
+#                             :property => 'title',
+#                             :inherit_directly => true
+#                           },
+#                           {
+#                             :property => 'component_id',
+#                             :inherit_directly => false
+#                           },
+#                           {
+#                             :property => 'language',
+#                             :inherit_directly => true
+#                           },
+#                           {
+#                             :property => 'dates',
+#                             :inherit_directly => true
+#                           },
+#                           {
+#                             :property => 'extents',
+#                             :inherit_directly => true
+#                           },
+#                           {
+#                             :property => 'linked_agents',
+#                             :inherit_if => proc {|json| json.select {|j| j['role'] == 'creator'} },
+#                             :inherit_directly => false
+#                           },
+#                           {
+#                             :property => 'notes',
+#                             :inherit_if => proc {|json| json.select {|j| j['type'] == 'accessrestrict'} },
+#                             :inherit_directly => false
+#                           },
+#                           {
+#                             :property => 'notes',
+#                             :inherit_if => proc {|json| json.select {|j| j['type'] == 'scopecontent'} },
+#                             :inherit_directly => false
+#                           },
+#                           {
+#                             :property => 'notes',
+#                             :inherit_if => proc {|json| json.select {|j| j['type'] == 'langmaterial'} },
+#                             :inherit_directly => false
+#                           },
+#                           {
+#                             :property => 'notes',
+#                             :inherit_if => proc {|json| json.select {|j| j['type'] == 'physloc'} },
+#                             :inherit_directly => false
+#                           },
+#                          ]
+#   }
+# }
 
 #
 ## To enable composite identifiers - added to the merged record in a property _composite_identifier

@@ -28,7 +28,7 @@ services:
 
   db:
     container_name: aspace_db
-    image: mysql:8.0
+    image: mysql:5.5.62
     command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
     ports:
         - "3306:3306"
