@@ -1,0 +1,54 @@
+FROM ubuntu:latest as builder
+LABEL application="Github Template"
+LABEL maintainer="Anthony Moulen <anthony_moulen@harvard.edu>"
+
+RUN apt update
+RUN apt install -y git
+
+ENV ARCHIVESSPACE_VERSION="v2.5.2"
+ENV ARCHIVESSPACE_GIT_REPO="https://github.com/archivesspace/archivesspace/releases/download/"
+ENV MYSQL_CONNECT_VERSION="5.1.34"
+
+# Get our archive from Maven.
+RUN cd / && \
+    apt-get update -y && \
+    apt-get install -y curl wget zip unzip && \
+    wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/${MYSQL_CONNECT_VERSION}/mysql-connector-java-${MYSQL_CONNECT_VERSION}.jar  && \
+    wget ${ARCHIVESSPACE_GIT_REPO}${ARCHIVESSPACE_VERSION}/archivesspace-${ARCHIVESSPACE_VERSION}.zip && \
+    unzip *.zip -d / && \
+    mv /mysql-connector* /archivesspace/lib && \
+    cd /archivesspace/scripts && \
+    sed -i "s/-cp/-Xmx4096m -cp/g" setup-database.sh && \
+    cd /
+
+
+FROM ubuntu:latest
+
+ENV ARCHIVESSPACE_LOGS=/logs \
+    LANG=C.UTF-8
+
+COPY --from=builder /archivesspace /archivesspace
+
+# COPY healthcheck.sh /archivesspace
+# COPY migrate_or_start.sh /archivesspace
+
+RUN DEBIAN_FRONTEND=non-interactive && \
+    mkdir /logs && \
+    apt-get -y update && \
+    apt-get -y install --no-install-recommends libyaml-dev ca-certificates openjdk-8-jre-headless wget unzip && \
+    rm -rf /var/lib/apt/lists/* && \
+    groupadd -g 509 aspace && \
+    useradd -l -s /bin/bash -m -u 509 -g aspace aspace &&  \
+    chown -R aspace:aspace /archivesspace && \ 
+    chown -R aspace:aspace /logs
+    # chown -R aspace:aspace /logs && \
+    # chmod 775 /archivesspace/healthcheck.sh && \
+    # chmod 775 /archivesspace/migrate_or_start.sh && \
+    # Run necessary init scripts
+    # su - aspace -c "cd /archivesspace && ./init-all.sh"
+
+USER aspace
+
+EXPOSE 8080 8081 8089 8090 8092
+
+CMD ["/archivesspace/archivesspace.sh"]
