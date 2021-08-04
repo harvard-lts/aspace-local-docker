@@ -32,6 +32,13 @@ source /dbsnapshots/${snapshot_name}.sql
 docker-compose -f docker-compose-migrate.yml up
 ```
 
+# Getting the plugins:
+Run the below command from the base directory to clone all plugins set to their relevant branches. They will be mounted into aspace's plugins directory via the docker-compose. To turn plugins on and off, add or remove them from the `AppConfig[:plugins]` property in `config.rb`. The order plugins are listed DOES matter, and by default `config.rb` contains the plugins in the proper order.
+```
+bash clone_plugins.sh
+``` 
+TODO: PLUGIN INIT SCRIPT
+
 # Running ASpace:
 ```
 docker-compose -f docker-compose-local.yml up

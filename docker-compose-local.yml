@@ -1,7 +1,7 @@
 version: '3.8'
 services:
-  aspace:
-    container_name: 'aspace'
+  aspace-3-0-2:
+    container_name: 'aspace-3-0-2'
     ports:
       - 19120:8080
       - 19121:8081
@@ -22,6 +22,7 @@ services:
         - ./data:/archivesspace/data
         - ./logs:/archivesspace/logs
         - ./config.rb:/archivesspace/config/config.rb
+        - ./plugins:/archivesspace/plugins
         # - /docker/aspace/aspace/config/migration_check:/archivesspace/migration_check
     networks:
         - aspace-local
