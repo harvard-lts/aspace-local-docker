@@ -5,7 +5,7 @@ LABEL maintainer="Anthony Moulen <anthony_moulen@harvard.edu>"
 RUN apt update
 RUN apt install -y git
 
-ENV ARCHIVESSPACE_VERSION="v2.5.2"
+ENV ARCHIVESSPACE_VERSION="v3.0.2-RC1"
 ENV ARCHIVESSPACE_GIT_REPO="https://github.com/archivesspace/archivesspace/releases/download/"
 ENV MYSQL_CONNECT_VERSION="5.1.34"
 
