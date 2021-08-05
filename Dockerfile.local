@@ -47,8 +47,11 @@ RUN DEBIAN_FRONTEND=non-interactive && \
     # Run necessary init scripts
     # su - aspace -c "cd /archivesspace && ./init-all.sh"
 
+COPY --chown=aspace start_and_init.sh /archivesspace
+RUN chmod 775 /archivesspace/start_and_init.sh
+
 USER aspace
 
 EXPOSE 8080 8081 8089 8090 8092
 
-CMD ["/archivesspace/archivesspace.sh"]
+CMD ["/archivesspace/start_and_init.sh"]

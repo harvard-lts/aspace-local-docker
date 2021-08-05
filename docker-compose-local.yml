@@ -1,7 +1,7 @@
 version: '3.8'
 services:
-  aspace-3-0-2:
-    container_name: 'aspace-3-0-2'
+  aspace:
+    container_name: 'aspace'
     ports:
       - 19120:8080
       - 19121:8081
@@ -16,6 +16,7 @@ services:
         - "db"
     environment:
         - ASPACE_JAVA_XMX=-Xmx12000m
+        - RUN_PLUGIN_INIT=true
     env_file:
         - "./local.env"
     volumes:
