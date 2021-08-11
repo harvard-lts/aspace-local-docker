@@ -5,7 +5,7 @@
 # If they require updates, do so on a new updates_for_aspace_3_0_2 branch
 
 ASPACE_OMNIAUTH_CAS_VERSION=changes_for_aspace_3_0_2
-ASPACE_LOCAL_VERSION=main
+ASPACE_LOCAL_VERSION=updates_for_3_0_2
 ASPACE_REFID_RULES_VERSION=main
 ASPACE_HVD_PUI_VERSION=updates_for_aspace_3_0_2
 REQUEST_LIST_VERSION=changes_for_aspace_3_0_2
