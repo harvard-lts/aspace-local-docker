@@ -3,3 +3,4 @@ logs/
 dbsnapshots/
 plugins/*
 .DS_Store
+db/
