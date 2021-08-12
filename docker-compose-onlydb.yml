@@ -15,6 +15,7 @@ services:
         - aspace-local
     volumes:
         - ./dbsnapshots:/dbsnapshots/
+        - ./db:/var/lib/mysql
 
 networks:
     aspace-local:

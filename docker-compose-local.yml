@@ -16,12 +16,14 @@ services:
         - "db"
     environment:
         - ASPACE_JAVA_XMX=-Xmx12000m
+        - RUN_PLUGIN_INIT=true
     env_file:
         - "./local.env"
     volumes:
         - ./data:/archivesspace/data
         - ./logs:/archivesspace/logs
         - ./config.rb:/archivesspace/config/config.rb
+        - ./plugins:/archivesspace/plugins
         # - /docker/aspace/aspace/config/migration_check:/archivesspace/migration_check
     networks:
         - aspace-local
@@ -37,6 +39,8 @@ services:
         - MYSQL_DATABASE=archivesspace
         - MYSQL_USER=as
         - MYSQL_PASSWORD=as123
+    volumes:
+        - ./db:/var/lib/mysql
     networks:
         - aspace-local
 

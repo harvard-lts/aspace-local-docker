@@ -5,9 +5,9 @@ LABEL maintainer="Anthony Moulen <anthony_moulen@harvard.edu>"
 RUN apt update
 RUN apt install -y git
 
-ENV ARCHIVESSPACE_VERSION="v2.5.2"
+ENV ARCHIVESSPACE_VERSION="v3.0.2-RC1"
 ENV ARCHIVESSPACE_GIT_REPO="https://github.com/archivesspace/archivesspace/releases/download/"
-ENV MYSQL_CONNECT_VERSION="5.1.34"
+ENV MYSQL_CONNECT_VERSION="8.0.23"
 
 # Get our archive from Maven.
 RUN cd / && \
@@ -47,8 +47,11 @@ RUN DEBIAN_FRONTEND=non-interactive && \
     # Run necessary init scripts
     # su - aspace -c "cd /archivesspace && ./init-all.sh"
 
+COPY --chown=aspace start_and_init.sh /archivesspace
+RUN chmod 775 /archivesspace/start_and_init.sh
+
 USER aspace
 
 EXPOSE 8080 8081 8089 8090 8092
 
-CMD ["/archivesspace/archivesspace.sh"]
+CMD ["/archivesspace/start_and_init.sh"]

@@ -38,6 +38,8 @@ services:
         - MYSQL_DATABASE=archivesspace
         - MYSQL_USER=as
         - MYSQL_PASSWORD=as123
+    volumes:
+        - ./db:/var/lib/mysql
     networks:
         - aspace-local
 

@@ -19,6 +19,34 @@ AppConfig[:db_url] = "jdbc:mysql://db:3306/archivesspace?useUnicode=true&charact
 ## Default is derived from the number of indexer threads.
 #AppConfig[:db_max_connections] = proc { 20 + (AppConfig[:indexer_thread_count] * 2) }
 
+# CAS
+AppConfig[:omniauthCas] = {
+  :full_host => '{{ site_home_url }}',
+  :provider => {
+    :url                  => 'https://www.pin1.harvard.edu',
+    :login_url            => '/cas/login',
+    :service_validate_url => '/cas/serviceValidate',
+    :uid_key              => 'user',
+    :host                 => 'www.pin1.harvard.edu',
+    :ssl                  => true,
+    },
+  :frontendUidProc  => lambda { |hash| uri =  JSONModel(:user).uri_for("email/#{hash['extra']['mail']}")
+                                       response = JSONModel::HTTP.post_form(uri)
+                                       if response.code == '200'
+                                         json = ASUtils.json_parse(response.body)
+                                         json["username"]
+                                       else
+                                         "nope"
+                                       end },
+  :backendUidProc   => lambda { |hash| CasUser.fetch_username_from_email(hash['mail']) },
+  :backendEmailProc => lambda { |hash| hash['mail']  },
+  :logoutUrlPath    => '/cas/logout',
+#       :initialUser      => {
+  #        :username => '<USER_ID>',
+#           :name     => '<USER-NAME',
+#       },
+  }
+
 ## The ArchivesSpace backend listens on port 8089 by default.  You can set it to
 ## something else below.
 #AppConfig[:backend_url] = "http://localhost:8089"
@@ -102,6 +130,8 @@ AppConfig[:solr_params] = { "q.op" => "AND", "bq" => proc { "primary_type:resour
 
 ## Plug-ins to load. They will load in the order specified
 #AppConfig[:plugins] = ['local',  'lcnaf']
+# AppConfig[:plugins] = ['local','refid_rules','aspace-omniauth-cas', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace_anded_search', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports']
+AppConfig[:plugins] = ['local', 'refid_rules', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace_anded_search', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports']
 
 #
 ## The number of concurrent threads available to run background jobs
@@ -292,7 +322,7 @@ AppConfig[:pui_indexer_thread_count] = 1
 
 ## URL to direct the feedback link
 ## You can remove this from the footer by making the value blank.
-#AppConfig[:feedback_url] = "http://archivesspace.org/feedback"
+AppConfig[:feedback_url] = "http://nrs.harvard.edu/urn-3:hul.ois:aspace-help"
 
 ## Allow an unauthenticated user to create an account
 #AppConfig[:allow_user_registration] = true
@@ -330,6 +360,7 @@ AppConfig[:pui_indexer_thread_count] = 1
 ## This is the configuration variable to point to some demo data for use in testing,
 ## teaching, etc.
 #AppConfig[:demo_data_url] = ""
+AppConfig[:pui_stored_pdfs_url] = "https://s3.amazonaws.com/hadpdfs"
 #
 ## Expose external ids in the frontend
 #AppConfig[:show_external_ids] = false
@@ -369,57 +400,58 @@ AppConfig[:pui_indexer_thread_count] = 1
 ## Note - any changes to record_inheritance config will require a reindex of pui
 ## records to take affect. To do this remove files from indexer_pui_state
 
-# AppConfig[:record_inheritance] = {
-#   :archival_object => {
-#     :inherited_fields => [
-#                           {
-#                             :property => 'title',
-#                             :inherit_directly => true
-#                           },
-#                           {
-#                             :property => 'component_id',
-#                             :inherit_directly => false
-#                           },
-#                           {
-#                             :property => 'language',
-#                             :inherit_directly => true
-#                           },
-#                           {
-#                             :property => 'dates',
-#                             :inherit_directly => true
-#                           },
-#                           {
-#                             :property => 'extents',
-#                             :inherit_directly => true
-#                           },
-#                           {
-#                             :property => 'linked_agents',
-#                             :inherit_if => proc {|json| json.select {|j| j['role'] == 'creator'} },
-#                             :inherit_directly => false
-#                           },
-#                           {
-#                             :property => 'notes',
-#                             :inherit_if => proc {|json| json.select {|j| j['type'] == 'accessrestrict'} },
-#                             :inherit_directly => false
-#                           },
-#                           {
-#                             :property => 'notes',
-#                             :inherit_if => proc {|json| json.select {|j| j['type'] == 'scopecontent'} },
-#                             :inherit_directly => false
-#                           },
-#                           {
-#                             :property => 'notes',
-#                             :inherit_if => proc {|json| json.select {|j| j['type'] == 'langmaterial'} },
-#                             :inherit_directly => false
-#                           },
-#                           {
-#                             :property => 'notes',
-#                             :inherit_if => proc {|json| json.select {|j| j['type'] == 'physloc'} },
-#                             :inherit_directly => false
-#                           },
-#                          ]
-#   }
-# }
+AppConfig[:record_inheritance] = {
+  :archival_object => {
+    :inherited_fields => [
+                          {
+                            :property => 'title',
+                            :inherit_directly => true
+                          },
+                          {
+                            :property => 'component_id',
+                            :inherit_directly => false
+                          },
+                          {
+                            # lang_materials is new here, replacing 'lanaguage' as seen in aspace default config. Not sure yet if it's entirely correct.
+                            :property => 'lang_materials',
+                            :inherit_directly => true
+                          },
+                          {
+                            :property => 'dates',
+                            :inherit_directly => true
+                          },
+                          {
+                            :property => 'extents',
+                            :inherit_directly => true
+                          },
+                          {
+                            :property => 'linked_agents',
+                            :inherit_if => proc {|json| json.select {|j| j['role'] == 'creator'} },
+                            :inherit_directly => false
+                          },
+                          {
+                            :property => 'notes',
+                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'accessrestrict'} },
+                            :inherit_directly => false
+                          },
+                          {
+                            :property => 'notes',
+                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'scopecontent'} },
+                            :inherit_directly => false
+                          },
+                          {
+                            :property => 'notes',
+                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'langmaterial'} },
+                            :inherit_directly => false
+                          },
+                          {
+                            :property => 'notes',
+                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'physloc'} },
+                            :inherit_directly => false
+                          },
+                         ]
+  }
+}
 
 #
 ## To enable composite identifiers - added to the merged record in a property _composite_identifier
@@ -482,6 +514,9 @@ AppConfig[:pui_search_results_page_size] = 25
 #AppConfig[:pui_branding_img] = 'archivesspace.small.png'
 #AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referer' when going outside the domain
 #AppConfig[:pui_enable_staff_link] = true # attempt to add a link back to the staff interface
+AppConfig[:pui_enable_staff_link] = false # aspace-hvd-pui
+AppConfig[:pui_feedback_link] = "http://nrs.harvard.edu/urn-3:hul.ois:archivesdiscovery"
+AppConfig[:pui_help_link] = "https://guides.library.harvard.edu/hollisforarchivaldiscovery"
 
 #
 ## The number of PDFs we'll generate (in the background) at the same time.
@@ -537,7 +572,7 @@ AppConfig[:pui_search_results_page_size] = 25
 ## Enable / disable PUI resource/archival object page actions
 #AppConfig[:pui_page_actions_cite] = true
 #AppConfig[:pui_page_actions_bookmark] = true
-#AppConfig[:pui_page_actions_request] = true
+AppConfig[:pui_page_actions_request] = true
 #AppConfig[:pui_page_actions_print] = true
 #
 ## Add page actions via the configuration
@@ -617,3 +652,141 @@ AppConfig[:pui_email_enabled] = false
 #AppConfig[:pui_readmore_max_characters] = 450
 AppConfig[:refid_rule] = "<%= eadid %>c<%= paddedseq %>"
 
+# **** Special keys required for the pui to directly query solr ****
+# IS THIS CORRECT???
+# AppConfig[:pui_solr_host] = "http://libsearch1-dev.lib.harvard.edu:18280"
+# AppConfig[:pui_solr_select] = "/solr/as_collection_2.8.1/select"
+# aspace-hvd-pui: **** id.lib host (different for pointing to dev, qa versions of idtest
+AppConfig[:pui_perma] = 'https://id.lib.harvard.edu'
+
+## AEON STUFF!!
+AppConfig[:request_list] = {
+  :button_position => 0,
+  :record_types => ['archival_object', 'resource', 'top_container'],
+  :item_limit => 20,
+  :pdf_filename => 'HOLLISForArchivalDiscoveryList.pdf',
+
+  :request_handlers => {
+    :harvard_test_aeon => {
+      :name => 'Harvard Test Aeon',
+      :profile => :harvard_aeon,
+      :url => 'https://aeontest.hul.harvard.edu/logon',
+      :list_opts => {
+        :return_link_label => 'Return to HOLLIS',
+        :form_target => 'harvard-library-requests',
+        :aeon_link_url => 'https://aeontest.hul.harvard.edu/logon',
+        :request_types => {
+          'Reading room' => {
+            'RequestType' => 'Loan',
+            'UserReview' => 'No',
+            'SkipOrderEstimate' => ''
+          },
+          'Saved' => {
+            'RequestType' => 'Loan',
+            'UserReview' => 'Yes',
+            'SkipOrderEstimate' => ''
+          },
+          'Photoduplication' => {
+            'RequestType' => 'Copy',
+            'UserReview' => 'No',
+            'SkipOrderEstimate' => 'Yes'
+          }
+        },
+        :format_options => [
+                            'Digital Prints',
+                            'Existing Digital Images',
+                            'Microfilm',
+                            'Standard Digital Photography',
+                            'Studio Digital Photography'
+                           ],
+        :delivery_options => [
+                              'Campus Pickup',
+                              'Mail',
+                              'Online Delivery'
+                             ]
+      }                       
+    }
+  },
+
+  :repositories => {
+    :default => {
+      :handler => :harvard_test_aeon,
+      :opts => {
+        :return_link_label => 'Return to HOLLIS'
+      }
+    },
+    'sch' => {
+      :handler => :none,
+      # :item_opts => {
+      #   :excluded_request_types => ['Photoduplication'],
+      # }
+    },
+    'arn' => {
+      :item_opts => {
+        :repo_fields => {
+          'Site' => 'HUH'
+        }
+      }
+    },
+    'ecb' => {
+      :item_opts => {
+        :repo_fields => {
+          'Site' => 'HUH'
+        }
+      }
+    },
+    'far' => {
+      :item_opts => {
+        :repo_fields => {
+          'Site' => 'HUH'
+        }
+      }
+    },
+    'hfa' => {
+      :item_opts => {
+        :repo_fields => {
+          'Site' => 'HOU'
+        }
+      }
+    },
+    'orc' => {
+      :item_opts => {
+        :repo_fields => {
+          'Site' => 'HUH'
+        }
+      }
+    },
+    'art' => {
+      :handler => :none,
+    },
+    'ber' => {
+      :handler => :none,
+    },
+    'ddo' => {
+      :handler => :none,
+    },
+    'env' => {
+      :handler => :none,
+    },
+    'hsi' => {
+      :handler => :none,
+    },
+    'ora' => {
+      :handler => :none,
+    },
+    'pea' => {
+      :handler => :none,
+    },
+    'uri' => {
+      :handler => :none,
+    },
+    'wid' => {
+      :handler => :none,
+    },
+  }
+}
+
+
+##### NEW CONFIG FROM 3.0.2 UPGRADE: ######
+# aspace_jsonmodel_from_format:
+AppConfig[:agent_records_default_publish] = false
