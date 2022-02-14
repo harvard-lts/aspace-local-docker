@@ -1,20 +1,19 @@
 #!/bin/bash
 
 
-# aspace-local, aspace-refid_rules, aspace_event_cleanup are currently unchanged.
-# If they require updates, do so on a new updates_for_aspace_3_0_2 branch
-
-ASPACE_OMNIAUTH_CAS_VERSION=changes_for_aspace_3_0_2
-ASPACE_LOCAL_VERSION=updates_for_3_0_2
-ASPACE_REFID_RULES_VERSION=main
-ASPACE_HVD_PUI_VERSION=updates_for_aspace_3_0_2
-REQUEST_LIST_VERSION=changes_for_aspace_3_0_2
-HARVARD_REQUEST_LIST_CUSTOMIZATIONS_VERSION=changes_for_aspace_3_0_2
-ASPACE_ANDED_SEARCH_VERSION=master
-NLA_ACCESSION_REPORTS_VERSION=changes_for_aspace_3_0_2
-ASPACE_EAD_XFORM_VERSION=changes_for_aspace_3_0_2
-ASPACE_EVENT_CLEANUP_VERSION=main
-HARVARD_ASPACE_REPORTS_VERSION=updates_for_aspace_3_0_2
+ASPACE_OMNIAUTH_CAS_VERSION=1.0.33
+ASPACE_LOCAL_VERSION=v1.0.5
+ASPACE_REFID_RULES_VERSION=v1.0.0
+ASPACE_HVD_PUI_VERSION=2.3.46
+REQUEST_LIST_VERSION=1.2.6
+HARVARD_REQUEST_LIST_CUSTOMIZATIONS_VERSION=v0.15
+ASPACE_ANDED_SEARCH_VERSION=v1.0.0
+NLA_ACCESSION_REPORTS_VERSION=v2.5.02
+ASPACE_EAD_XFORM_VERSION=v1.1.3
+ASPACE_EVENT_CLEANUP_VERSION=v1.0.0
+HARVARD_ASPACE_REPORTS_VERSION=v0.1.51
+QUOTED_TYPES_FIX_VERSION=v0.1
+BACKPORTS_302_VERSION=0.1
 
 mkdir plugins
 # ASpace Omniauth CAS will not work locally, so leave it out
@@ -32,3 +31,8 @@ git clone -b $NLA_ACCESSION_REPORTS_VERSION https://github.com/harvard-library/n
 git clone -b $ASPACE_EAD_XFORM_VERSION https://github.com/harvard-library/aspace-ead-xform ./plugins/aspace-ead-xform
 git clone -b $ASPACE_EVENT_CLEANUP_VERSION https://github.com/harvard-library/aspace-event-cleanup ./plugins/aspace-event-cleanup
 git clone -b $HARVARD_ASPACE_REPORTS_VERSION https://github.com/harvard-library/harvard_aspace_reports ./plugins/harvard_aspace_reports
+git clone -b $QUOTED_TYPES_FIX_VERSION https://github.com/harvard-library/quoted_types_fix.git ./plugins/quoted_types_fix
+git clone https://github.com/archivesspace-plugins/batch_update_langmaterials.git ./plugins/batch_update_langmaterials
+git clone https://github.com/archivesspace-plugins/batch_update_lang_and_script.git ./plugins/batch_update_lang_and_script
+git clone https://github.com/archivesspace-plugins/batch_update_langmaterials_from_note.git ./plugins/batch_update_langmaterials_from_note
+git clone -b 0.1 https://github.com/harvard-lts/302-backports ./plugins/302-backports
