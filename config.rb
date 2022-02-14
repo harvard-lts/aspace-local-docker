@@ -87,7 +87,7 @@ AppConfig[:frontend_log_level] = "debug"
 ## Log level for the backend, values: (everything) debug, info, warn, error, fatal (severe only)
 #AppConfig[:backend_log] = "default"
 AppConfig[:backend_log] = "/archivesspace/logs/backend.log"
-AppConfig[:backend_log_level] = "debug"
+AppConfig[:backend_log_level] = "info"
 
 #AppConfig[:pui_log] = "default"
 AppConfig[:pui_log] = "/archivesspace/logs/pui.log"
@@ -131,7 +131,8 @@ AppConfig[:solr_params] = { "q.op" => "AND", "bq" => proc { "primary_type:resour
 ## Plug-ins to load. They will load in the order specified
 #AppConfig[:plugins] = ['local',  'lcnaf']
 # AppConfig[:plugins] = ['local','refid_rules','aspace-omniauth-cas', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace_anded_search', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports']
-AppConfig[:plugins] = ['local', 'refid_rules', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace_anded_search', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports']
+# AppConfig[:plugins] = ['local','refid_rules','aspace-omniauth-cas', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace_anded_search', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports', '302-backports', 'quoted_types_fix', 'batch_update_lang_and_script', 'batch_update_langmaterials', 'batch_update_langmaterials_from_note']
+AppConfig[:plugins] = ['local','refid_rules', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace_anded_search', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports', '302-backports', 'quoted_types_fix', 'batch_update_lang_and_script', 'batch_update_langmaterials', 'batch_update_langmaterials_from_note']
 
 #
 ## The number of concurrent threads available to run background jobs
@@ -654,8 +655,8 @@ AppConfig[:refid_rule] = "<%= eadid %>c<%= paddedseq %>"
 
 # **** Special keys required for the pui to directly query solr ****
 # IS THIS CORRECT???
-# AppConfig[:pui_solr_host] = "http://libsearch1-dev.lib.harvard.edu:18280"
-# AppConfig[:pui_solr_select] = "/solr/as_collection_2.8.1/select"
+AppConfig[:pui_solr_host] = "http://localhost:8090"
+AppConfig[:pui_solr_select] = "/solr/archivesspace/select"
 # aspace-hvd-pui: **** id.lib host (different for pointing to dev, qa versions of idtest
 AppConfig[:pui_perma] = 'https://id.lib.harvard.edu'
 
@@ -681,24 +682,24 @@ AppConfig[:request_list] = {
             'UserReview' => 'No',
             'SkipOrderEstimate' => ''
           },
-          'Saved' => {
-            'RequestType' => 'Loan',
-            'UserReview' => 'Yes',
-            'SkipOrderEstimate' => ''
-          },
-          'Photoduplication' => {
+          'Copy' => {
             'RequestType' => 'Copy',
             'UserReview' => 'No',
-            'SkipOrderEstimate' => 'Yes'
+            'SkipOrderEstimate' => 'Yes',
+          },
+          'Save for Later' => {
+            'RequestType' => 'Loan',
+            'UserReview' => 'Yes',
+            'SkipOrderEstimate' => '',
           }
         },
         :format_options => [
-                            'Digital Prints',
-                            'Existing Digital Images',
-                            'Microfilm',
-                            'Standard Digital Photography',
-                            'Studio Digital Photography'
-                           ],
+                              'Reference copy',
+                              'Publication-quality copy',
+                              'Print',
+                              'Existing digital file',
+                              'Other'
+                            ],
         :delivery_options => [
                               'Campus Pickup',
                               'Mail',
@@ -714,12 +715,6 @@ AppConfig[:request_list] = {
       :opts => {
         :return_link_label => 'Return to HOLLIS'
       }
-    },
-    'sch' => {
-      :handler => :none,
-      # :item_opts => {
-      #   :excluded_request_types => ['Photoduplication'],
-      # }
     },
     'arn' => {
       :item_opts => {
@@ -752,14 +747,19 @@ AppConfig[:request_list] = {
     'orc' => {
       :item_opts => {
         :repo_fields => {
+          'Site' => 'HUH',
+          'Location' => 'HUH'
+        }
+      }
+    },
+    'gra' => {
+      :item_opts => {
+        :repo_fields => {
           'Site' => 'HUH'
         }
       }
     },
     'art' => {
-      :handler => :none,
-    },
-    'ber' => {
       :handler => :none,
     },
     'ddo' => {
@@ -790,3 +790,8 @@ AppConfig[:request_list] = {
 ##### NEW CONFIG FROM 3.0.2 UPGRADE: ######
 # aspace_jsonmodel_from_format:
 AppConfig[:agent_records_default_publish] = false
+
+# Set default/active tab for PUI citation modal. If set to 'true' item citation
+# tab will be active by default; if 'false' item description tab will be active.
+# AppConfig[:pui_page_actions_cite] must be set to true for this to take effect.
+AppConfig[:pui_active_citation_tab_item] = false
