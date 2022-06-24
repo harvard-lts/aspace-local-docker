@@ -13,11 +13,34 @@ ENV MYSQL_CONNECT_VERSION="8.0.23"
 RUN cd / && \
     apt-get update -y && \
     apt-get install -y curl wget zip unzip && \
-    wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/${MYSQL_CONNECT_VERSION}/mysql-connector-java-${MYSQL_CONNECT_VERSION}.jar  && \
     # wget ${ARCHIVESSPACE_GIT_REPO}${ARCHIVESSPACE_VERSION}/archivesspace-${ARCHIVESSPACE_VERSION}.zip && \
     wget https://github.com/archivesspace/archivesspace/releases/download/v3.0.2/archivesspace-v3.0.2.zip && \
     unzip *.zip -d / && \
-    mv /mysql-connector* /archivesspace/lib && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/mysql/mysql-connector-java/${MYSQL_CONNECT_VERSION}/mysql-connector-java-${MYSQL_CONNECT_VERSION}.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/com/google/zxing/core/3.5.0/core-3.5.0.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/com/openhtmltopdf/openhtmltopdf-core/1.0.10/openhtmltopdf-core-1.0.10.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/com/openhtmltopdf/openhtmltopdf-pdfbox/1.0.10/openhtmltopdf-pdfbox-1.0.10.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/de/rototor/pdfbox/graphics2d/0.34/graphics2d-0.34.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/apache/pdfbox/pdfbox/2.0.26/pdfbox-2.0.26.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/apache/pdfbox/xmpbox/2.0.26/xmpbox-2.0.26.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/apache/pdfbox/fontbox/2.0.26/fontbox-2.0.26.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/jfree/jfreechart/1.5.3/jfreechart-1.5.3.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/freemarker/freemarker/2.3.27-incubating/freemarker-2.3.27-incubating.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/apache/servicemix/bundles/org.apache.servicemix.bundles.rhino/1.7.10_1/org.apache.servicemix.bundles.rhino-1.7.10_1-sources.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.29/jmh-core-1.29.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/codelibs/jhighlight/1.1.0/jhighlight-1.1.0.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/thymeleaf/extras/thymeleaf-extras-java8time/3.0.4.RELEASE/thymeleaf-extras-java8time-3.0.4.RELEASE.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/thymeleaf/thymeleaf/3.1.0.M2/thymeleaf-3.1.0.M2.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/yaml/snakeyaml/1.26/snakeyaml-1.26.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/com/ibm/icu/icu4j/59.1/icu4j-59.1.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/apache/xmlgraphics/batik-codec/1.14/batik-codec-1.14.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/apache/xmlgraphics/batik-ext/1.14/batik-ext-1.14.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/apache/xmlgraphics/batik-transcoder/1.14/batik-transcoder-1.14.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/apache/xmlgraphics/xmlgraphics-commons/2.7/xmlgraphics-commons-2.7.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/org/verapdf/validation-model/1.18.8/validation-model-1.18.8.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/de/rototor/snuggletex/snuggletex-core/1.3.0/snuggletex-core-1.3.0.jar && \
+    wget -P /archivesspace/lib https://repo1.maven.org/maven2/net/sourceforge/jeuclid/jeuclid-core/3.1.9/jeuclid-core-3.1.9.jar && \
     cd /archivesspace/scripts && \
     sed -i "s/-cp/-Xmx4096m -cp/g" setup-database.sh && \
     cd /
@@ -39,7 +62,7 @@ RUN DEBIAN_FRONTEND=non-interactive && \
     rm -rf /var/lib/apt/lists/* && \
     groupadd -g 509 aspace && \
     useradd -l -s /bin/bash -m -u 509 -g aspace aspace &&  \
-    chown -R aspace:aspace /archivesspace && \ 
+    chown -R aspace:aspace /archivesspace && \
     chown -R aspace:aspace /logs
     # chown -R aspace:aspace /logs && \
     # chmod 775 /archivesspace/healthcheck.sh && \
