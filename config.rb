@@ -65,7 +65,7 @@ AppConfig[:omniauthCas] = {
 
 ## The ArchivesSpace Solr index listens on port 8090 by default.  You can
 ## set it to something else below.
-# AppConfig[:solr_url] = "http://localhost:8090"
+AppConfig[:solr_url] = "http://solr:8983/solr/archivesspace"
 
 ## The ArchivesSpace indexer listens on port 8091 by default.  You can
 ## set it to something else below.
@@ -656,7 +656,7 @@ AppConfig[:refid_rule] = "<%= eadid %>c<%= paddedseq %>"
 
 # **** Special keys required for the pui to directly query solr ****
 # IS THIS CORRECT???
-AppConfig[:pui_solr_host] = "http://localhost:8090"
+AppConfig[:pui_solr_host] = "http://solr:8983"
 AppConfig[:pui_solr_select] = "/solr/archivesspace/select"
 # aspace-hvd-pui: **** id.lib host (different for pointing to dev, qa versions of idtest
 AppConfig[:pui_perma] = 'https://id.lib.harvard.edu'

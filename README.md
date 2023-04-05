@@ -16,7 +16,7 @@ docker exec -it aspace_db bash
 ```
 Log into Mysql and enter the password defined in the docker-compose-onlydb.yml:
 ```
-mysql -p
+mysql -u as -p
 ```
 Select the archivesspace database:
 ```
