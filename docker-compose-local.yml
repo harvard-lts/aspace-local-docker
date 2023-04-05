@@ -43,6 +43,16 @@ services:
         - ./db:/var/lib/mysql
     networks:
         - aspace-local
+        
+  solr:
+    build:
+      context: ./solr
+    image: aspacesolr
+    command: solr-create -p 8983 -c archivesspace -d archivesspace
+    ports:
+      - "8983:8983"
+    networks:
+      - aspace-local
 
 networks:
     aspace-local:
