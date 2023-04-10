@@ -4,3 +4,5 @@ dbsnapshots/
 plugins/*
 .DS_Store
 db/
+solr_data/*
+!/solr_data/.keep
