@@ -17,7 +17,7 @@ services:
         - "solr"
     environment:
         - ASPACE_JAVA_XMX=-Xmx12000m
-        - RUN_PLUGIN_INIT=true
+        - RUN_PLUGIN_INIT=false
     env_file:
         - "./local.env"
     volumes:
@@ -52,6 +52,8 @@ services:
     command: solr-create -p 8983 -c archivesspace -d archivesspace
     ports:
       - "8983:8983"
+    volumes:
+      - ./solr_data:/var/solr/data:cached
     networks:
       - aspace-local
 
