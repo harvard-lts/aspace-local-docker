@@ -1,13 +1,12 @@
 #!/bin/bash
 
 
-ASPACE_OMNIAUTH_CAS_VERSION=1.0.33
+ASPACE_OMNIAUTH_CAS_VERSION=1.0.35
 ASPACE_LOCAL_VERSION=v1.0.5
 ASPACE_REFID_RULES_VERSION=v1.0.0
-ASPACE_HVD_PUI_VERSION=2.3.46
-REQUEST_LIST_VERSION=1.2.6
+ASPACE_HVD_PUI_VERSION=v2.4.7b
+REQUEST_LIST_VERSION=1.2.8
 HARVARD_REQUEST_LIST_CUSTOMIZATIONS_VERSION=v0.15
-ASPACE_ANDED_SEARCH_VERSION=v1.0.0
 NLA_ACCESSION_REPORTS_VERSION=v2.5.02
 ASPACE_EAD_XFORM_VERSION=v1.1.3
 ASPACE_EVENT_CLEANUP_VERSION=v1.0.0
@@ -24,7 +23,6 @@ git clone -b $ASPACE_REFID_RULES_VERSION https://github.com/harvard-library/aspa
 git clone -b $ASPACE_HVD_PUI_VERSION https://github.com/harvard-library/aspace-hvd-pui.git ./plugins/aspace-hvd-pui
 git clone -b $REQUEST_LIST_VERSION https://github.com/harvard-library/request_list.git ./plugins/request_list
 git clone -b $HARVARD_REQUEST_LIST_CUSTOMIZATIONS_VERSION https://github.com/harvard-library/harvard_request_list_customizations ./plugins/harvard_request_list_customizations
-git clone -b $ASPACE_ANDED_SEARCH_VERSION https://github.com/harvard-library/aspace_anded_search ./plugins/aspace_anded_search
 # aspace-jsonmodel-from-format is a lyrasis plugin so we just use their most updated main branch
 git clone https://github.com/lyrasis/aspace-jsonmodel-from-format/ ./plugins/aspace-jsonmodel-from-format
 git clone -b $NLA_ACCESSION_REPORTS_VERSION https://github.com/harvard-library/nla_accession_reports ./plugins/nla_accession_reports
@@ -32,7 +30,4 @@ git clone -b $ASPACE_EAD_XFORM_VERSION https://github.com/harvard-library/aspace
 git clone -b $ASPACE_EVENT_CLEANUP_VERSION https://github.com/harvard-library/aspace-event-cleanup ./plugins/aspace-event-cleanup
 git clone -b $HARVARD_ASPACE_REPORTS_VERSION https://github.com/harvard-library/harvard_aspace_reports ./plugins/harvard_aspace_reports
 git clone -b $QUOTED_TYPES_FIX_VERSION https://github.com/harvard-library/quoted_types_fix.git ./plugins/quoted_types_fix
-git clone https://github.com/archivesspace-plugins/batch_update_langmaterials.git ./plugins/batch_update_langmaterials
-git clone https://github.com/archivesspace-plugins/batch_update_lang_and_script.git ./plugins/batch_update_lang_and_script
-git clone https://github.com/archivesspace-plugins/batch_update_langmaterials_from_note.git ./plugins/batch_update_langmaterials_from_note
 git clone -b 0.1 https://github.com/harvard-lts/302-backports ./plugins/302-backports
