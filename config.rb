@@ -129,11 +129,7 @@ AppConfig[:solr_params] = { "q.op" => "AND", "bq" => proc { "primary_type:resour
 #AppConfig[:locale] = :en
 
 ## Plug-ins to load. They will load in the order specified
-#AppConfig[:plugins] = ['local',  'lcnaf']
-# AppConfig[:plugins] = ['local','refid_rules','aspace-omniauth-cas', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace_anded_search', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports']
-  
-# AppConfig[:plugins] = ['local','refid_rules','aspace-omniauth-cas', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace_anded_search', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports', '302-backports', 'quoted_types_fix', 'batch_update_lang_and_script', 'batch_update_langmaterials', 'batch_update_langmaterials_from_note']
-AppConfig[:plugins] = ['local','refid_rules', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace_anded_search', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports', '302-backports', 'quoted_types_fix', 'batch_update_lang_and_script', 'batch_update_langmaterials', 'batch_update_langmaterials_from_note']
+AppConfig[:plugins] = ['local','refid_rules', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports', 'quoted_types_fix']
 
 #
 ## The number of concurrent threads available to run background jobs
