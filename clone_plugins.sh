@@ -12,7 +12,6 @@ ASPACE_EAD_XFORM_VERSION=v1.1.3
 ASPACE_EVENT_CLEANUP_VERSION=v1.0.0
 HARVARD_ASPACE_REPORTS_VERSION=v0.1.51
 QUOTED_TYPES_FIX_VERSION=v0.1
-BACKPORTS_302_VERSION=0.1
 
 mkdir plugins
 # ASpace Omniauth CAS will not work locally, so leave it out
@@ -30,4 +29,3 @@ git clone -b $ASPACE_EAD_XFORM_VERSION https://github.com/harvard-library/aspace
 git clone -b $ASPACE_EVENT_CLEANUP_VERSION https://github.com/harvard-library/aspace-event-cleanup ./plugins/aspace-event-cleanup
 git clone -b $HARVARD_ASPACE_REPORTS_VERSION https://github.com/harvard-library/harvard_aspace_reports ./plugins/harvard_aspace_reports
 git clone -b $QUOTED_TYPES_FIX_VERSION https://github.com/harvard-library/quoted_types_fix.git ./plugins/quoted_types_fix
-git clone -b 0.1 https://github.com/harvard-lts/302-backports ./plugins/302-backports
