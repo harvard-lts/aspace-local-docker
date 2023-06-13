@@ -1,5 +1,5 @@
-# aspace-2-5-2
-ArchivesSpace 2.5.2 setup for contractor work
+# aspace-3-3-1
+ArchivesSpace 3.3.1 setup for contractor work
 
 # Setup
 Either load a database snapshot, or migrate a fresh mysql database.
