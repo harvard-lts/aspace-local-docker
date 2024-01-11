@@ -17,7 +17,7 @@ services:
         - "solr"
     environment:
         - ASPACE_JAVA_XMX=-Xmx12000m
-        - RUN_PLUGIN_INIT=true
+        # - RUN_PLUGIN_INIT=true
     env_file:
         - "./local.env"
     volumes:
@@ -31,7 +31,7 @@ services:
 
   db:
     container_name: aspace_db
-    image: mysql:5.5.62
+    image: mysql:8.2.0
     command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
     ports:
         - "3306:3306"
@@ -48,7 +48,7 @@ services:
   solr:
     build:
       context: ./solr
-    image: aspacesolr
+    image: archivesspace/solr:latest
     command: solr-create -p 8983 -c archivesspace -d archivesspace
     ports:
       - "8983:8983"

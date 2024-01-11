@@ -29,7 +29,7 @@ services:
         - aspace-local
 
   db:
-    image: mysql:5.5.62
+    image: mysql:8.2.0
     command: --character-set-server=utf8 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
     ports:
         - "3306:3306"

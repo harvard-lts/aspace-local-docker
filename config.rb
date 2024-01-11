@@ -129,7 +129,188 @@ AppConfig[:solr_params] = { "q.op" => "AND", "bq" => proc { "primary_type:resour
 #AppConfig[:locale] = :en
 
 ## Plug-ins to load. They will load in the order specified
-AppConfig[:plugins] = ['local','refid_rules', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports', 'quoted_types_fix']
+AppConfig[:plugins] = ['local']
+# AppConfig[:plugins] = ['local','refid_rules', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports', 'quoted_types_fix']
+# AppConfig[:plugins] = ['local','refid_rules', 'aspace-hvd-pui', 'ArchivesSpace-Aeon-Fulfillment-Plugin', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports', 'quoted_types_fix']
+# AppConfig[:plugins] = ['local', 'ArchivesSpace-Aeon-Fulfillment-Plugin']
+
+AppConfig[:aeon_fulfillment] = {
+  "ajp" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "arn" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "art" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "atk" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "atkprod" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "bak" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "ber" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "ddo" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "des" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "div" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "ecb" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "env" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "fal" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "far" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "fun" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "gra" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "gut" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "hfa" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "hou" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "hsi" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "hua" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "hyl" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "law" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "mcz" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "med" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "mus" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "ora" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "orc" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "pea" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "sch" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "toz" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "uri" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "vit" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "wid" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  },
+  "wol" => {
+    :aeon_web_url => "https://aeontest.hul.harvard.edu/logon",
+    :aeon_return_link_label => "Return to HOLLIS",
+    :aeon_external_system_id => "ArchivesSpace"
+  }
+}
 
 #
 ## The number of concurrent threads available to run background jobs
@@ -570,7 +751,7 @@ AppConfig[:pui_help_link] = "https://guides.library.harvard.edu/hollisforarchiva
 ## Enable / disable PUI resource/archival object page actions
 #AppConfig[:pui_page_actions_cite] = true
 #AppConfig[:pui_page_actions_bookmark] = true
-AppConfig[:pui_page_actions_request] = true
+AppConfig[:pui_page_actions_request] = false
 #AppConfig[:pui_page_actions_print] = true
 #
 ## Add page actions via the configuration
