@@ -103,12 +103,6 @@ AppConfig[:indexer_log] = "/archivesspace/logs/indexer.log"
 ## Set to true if you have enabled MySQL binary logging
 #AppConfig[:mysql_binlog] = false
 #
-## By default, Solr backups will run at midnight.  See https://crontab.guru/ for
-## information about the schedule syntax.
-#AppConfig[:solr_backup_schedule] = "0 * * * *"
-AppConfig[:solr_backup_schedule] = "0 0 * * 1"
-#AppConfig[:solr_backup_number_to_keep] = 1
-#AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory], "solr_backups") }
 ## add default solr params, i.e. use AND for search: AppConfig[:solr_params] = { "op" => "AND" }
 ## Another example below sets the boost query value (bq) to boost the relevancy for the query string in the title,
 ## sets the phrase fields parameter (pf) to boost the relevancy for the title when the query terms are in close proximity to
@@ -129,8 +123,7 @@ AppConfig[:solr_params] = { "q.op" => "AND", "bq" => proc { "primary_type:resour
 #AppConfig[:locale] = :en
 
 ## Plug-ins to load. They will load in the order specified
-# AppConfig[:plugins] = ['local']
-AppConfig[:plugins] = ['local','refid_rules', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports', 'quoted_types_fix']
+AppConfig[:plugins] = ['local','refid_rules', 'aspace-omniauth-cas', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports', 'quoted_types_fix']
 
 #
 ## The number of concurrent threads available to run background jobs
@@ -139,27 +132,9 @@ AppConfig[:plugins] = ['local','refid_rules', 'aspace-hvd-pui', 'request_list', 
 #AppConfig[:job_thread_count] = 2
 #
 ## OAI configuration options
-#AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
 #AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
-#AppConfig[:oai_record_prefix] = 'oai:archivesspace'
-#AppConfig[:oai_admin_email] = 'admin@example.com'
-#
-## In addition to the sets based on level of description, you can define OAI Sets
-## based on repository codes and/or sponsors as follows
-##
-## AppConfig[:oai_sets] = {
-##   'repository_set' => {
-##     :repo_codes => ['hello626'],
-##     :description => "A set of one or more repositories",
-##   },
-##
-##   'sponsor_set' => {
-##     :sponsors => ['The_Sponsor'],
-##     :description => "A set of one or more sponsors",
-##   },
-## }
-#
 #AppConfig[:oai_ead_options] = {}
+
 ## alternate example:  AppConfig[:oai_ead_options] = { :include_daos => true, :use_numbered_c_tags => true }
 AppConfig[:oai_ead_options] = {
           :include_daos => true,
@@ -297,6 +272,8 @@ AppConfig[:enable_solr] = false
 #AppConfig[:staff_username] = "staff_system"
 #
 #AppConfig[:authentication_sources] = []
+# When 'true' restrict authentication attempts to only the source already set for the user
+# AppConfig[:authentication_restricted_by_source] = false # default: allow any source
 #
 #AppConfig[:realtime_index_backlog_ms] = 60000
 #
@@ -364,6 +341,9 @@ AppConfig[:pui_stored_pdfs_url] = "https://s3.amazonaws.com/hadpdfs"
 ## Expose external ids in the frontend
 #AppConfig[:show_external_ids] = false
 #
+# Allow mixed content in the title fields of resources, archival objects,
+# digital objects, digital object components, and accessions
+AppConfig[:allow_mixed_content_title_fields] = true
 ##
 ## This sets the allowed size of the request/response header that Jetty will accept (
 ## anything bigger gets a 403 error ). Note if you want to jack this size up,
@@ -382,7 +362,7 @@ AppConfig[:pui_stored_pdfs_url] = "https://s3.amazonaws.com/hadpdfs"
 ## Example:
 ## AppConfig[:container_management_barcode_length] = {:system_default => {:min => 5, :max => 10}, 'repo' => {:min => 9, :max => 12}, 'other_repo' => {:min => 9, :max => 9} }
 #
-## :container_management_extent_calculator globally defines the behavior of the exent calculator.
+## :container_management_extent_calculator globally defines the behavior of the extent calculator.
 ## Use :report_volume (true/false) to define whether space should be reported in cubic
 ## or linear dimensions.
 ## Use :unit (:feet, :inches, :meters, :centimeters) to define the unit which the calculator
@@ -510,7 +490,7 @@ AppConfig[:record_inheritance][:archival_object][:composite_identifiers] = {
 ## PUI Configurations
 
 AppConfig[:pui_search_results_page_size] = 25
-#AppConfig[:pui_branding_img] = 'archivesspace.small.png'
+# AppConfig[:pui_branding_img] = 'ArchivesSpaceLogo.svg'
 #AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referer' when going outside the domain
 #AppConfig[:pui_enable_staff_link] = true # attempt to add a link back to the staff interface
 AppConfig[:pui_enable_staff_link] = false # aspace-hvd-pui
@@ -783,6 +763,11 @@ AppConfig[:request_list] = {
     },
   }
 }
+
+# Enables Language Selection in PUI
+AppConfig[:allow_pui_language_selection] = false
+# How repositories should be sorted in the PUI. Options are :display_string or :position
+AppConfig[:pui_repositories_sort] = :display_string
 
 
 ##### NEW CONFIG FROM 3.0.2 UPGRADE: ######
