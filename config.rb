@@ -124,7 +124,6 @@ AppConfig[:solr_params] = { "q.op" => "AND", "bq" => proc { "primary_type:resour
 
 ## Plug-ins to load. They will load in the order specified
 AppConfig[:plugins] = ['local','refid_rules', 'aspace-omniauth-cas', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports', 'quoted_types_fix']
-
 #
 ## The number of concurrent threads available to run background jobs
 ## Introduced for AR-1619 - long running jobs were blocking the queue
@@ -638,6 +637,38 @@ AppConfig[:pui_solr_select] = "/solr/archivesspace/select"
 # aspace-hvd-pui: **** id.lib host (different for pointing to dev, qa versions of idtest
 AppConfig[:pui_perma] = 'https://id.lib.harvard.edu'
 
+AppConfig[:max_boolean_queries] = 1024
+AppConfig[:record_inheritance_resolves] = [
+  'ancestors',
+  'ancestors::linked_agents',
+  'ancestors::subjects',
+  'ancestors::instances::sub_container::top_container',
+]
+
+AppConfig[:pui_expand_all] = true
+AppConfig[:pui_display_facets_alpha] = false
+# Resolving linked events can have a big impact on performance. If the number of linked events surpasses the max then the events will not be resolved and a more abridged
+# record will be displayed to keep memory usage under control as the no. of events grows
+AppConfig[:max_linked_events_to_resolve] = 100
+# Prior to 3.2.0, multiple ARKs may have been created without the user intending to do so. Setting this to true will make
+# database upgrade 158 attempt to clean up unwanted extra ARKs. When multiple rows in the ARK table reference the same resource
+# or archival object, the first one created will be kept and the rest discarded.  Use with caution and test thoroughly.
+AppConfig[:prune_ark_name_table] = false
+# If the PUI is enabled, add resource finding aid URLs to MARC exports
+AppConfig[:include_pui_finding_aid_urls_in_marc_exports] = false
+# If enabled, use slugs instead of URIs in finding aid links (856 $u)
+AppConfig[:use_slug_finding_aid_urls_in_marc_exports] = false
+
+# Enables Language Selection in PUI
+AppConfig[:allow_pui_language_selection] = false
+# How repositories should be sorted in the PUI. Options are :display_string or :position
+AppConfig[:pui_repositories_sort] = :display_string
+
+# ARK Changes. TODO: What is Ark??
+AppConfig[:ark_minter] = :archivesspace_ark_minter
+AppConfig[:ark_enable_repository_shoulder] = false
+AppConfig[:ark_shoulder_delimiter] = ''
+
 ## AEON STUFF!!
 AppConfig[:request_list] = {
   :button_position => 0,
@@ -763,12 +794,6 @@ AppConfig[:request_list] = {
     },
   }
 }
-
-# Enables Language Selection in PUI
-AppConfig[:allow_pui_language_selection] = false
-# How repositories should be sorted in the PUI. Options are :display_string or :position
-AppConfig[:pui_repositories_sort] = :display_string
-
 
 ##### NEW CONFIG FROM 3.0.2 UPGRADE: ######
 # aspace_jsonmodel_from_format:
