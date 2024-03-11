@@ -339,6 +339,10 @@ AppConfig[:pui_stored_pdfs_url] = "https://s3.amazonaws.com/hadpdfs"
 #
 ## Expose external ids in the frontend
 #AppConfig[:show_external_ids] = false
+
+# Whether to display archival record identifiers in the frontend largetree container
+AppConfig[:display_identifiers_in_largetree_container] = true
+
 #
 # Allow mixed content in the title fields of resources, archival objects,
 # digital objects, digital object components, and accessions
@@ -546,6 +550,10 @@ AppConfig[:pui_help_link] = "https://guides.library.harvard.edu/hollisforarchiva
 ## AppConfig[:pui_repos]['foo'][:hide][:counts] = true
 #
 #AppConfig[:pui_display_deaccessions] = true
+
+# Whether to display archival record identifiers in the PUI collection organization tree
+AppConfig[:pui_display_identifiers_in_resource_tree] = false
+
 #
 ## Enable / disable PUI resource/archival object page actions
 #AppConfig[:pui_page_actions_cite] = true
