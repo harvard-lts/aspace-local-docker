@@ -5,7 +5,7 @@ LABEL maintainer="Anthony Moulen <anthony_moulen@harvard.edu>"
 RUN apt update
 RUN apt install -y git
 
-ENV ARCHIVESSPACE_VERSION="v3.3.1"
+ENV ARCHIVESSPACE_VERSION="v3.4.1"
 ENV ARCHIVESSPACE_GIT_REPO="https://github.com/archivesspace/archivesspace/releases/download/"
 ENV MYSQL_CONNECT_VERSION="8.0.23"
 
@@ -14,7 +14,7 @@ RUN cd / && \
     apt-get update -y && \
     apt-get install -y curl wget zip unzip && \
     # wget ${ARCHIVESSPACE_GIT_REPO}${ARCHIVESSPACE_VERSION}/archivesspace-${ARCHIVESSPACE_VERSION}.zip && \
-    wget https://github.com/archivesspace/archivesspace/releases/download/v3.3.1/archivesspace-v3.3.1.zip && \
+    wget https://github.com/archivesspace/archivesspace/releases/download/v3.4.1/archivesspace-v3.4.1.zip && \
     unzip *.zip -d / && \
     wget -P /archivesspace/lib https://repo1.maven.org/maven2/mysql/mysql-connector-java/${MYSQL_CONNECT_VERSION}/mysql-connector-java-${MYSQL_CONNECT_VERSION}.jar && \
     wget -P /archivesspace/lib https://repo1.maven.org/maven2/com/google/zxing/core/3.5.0/core-3.5.0.jar && \
@@ -58,7 +58,7 @@ COPY --from=builder /archivesspace /archivesspace
 RUN DEBIAN_FRONTEND=non-interactive && \
     mkdir /logs && \
     apt-get -y update && \
-    apt-get -y install --no-install-recommends libyaml-dev ca-certificates openjdk-8-jre-headless wget unzip && \
+    apt-get -y install --no-install-recommends ca-certificates libyaml-dev openjdk-8-jre-headless wget unzip && \
     rm -rf /var/lib/apt/lists/* && \
     groupadd -g 509 aspace && \
     useradd -l -s /bin/bash -m -u 509 -g aspace aspace &&  \
