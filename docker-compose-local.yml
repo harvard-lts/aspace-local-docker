@@ -17,10 +17,11 @@ services:
         - "solr"
     environment:
         - ASPACE_JAVA_XMX=-Xmx12000m
-        # - RUN_PLUGIN_INIT=true
+        - RUN_PLUGIN_INIT=true
     env_file:
         - "./local.env"
     volumes:
+        - ./solr/schema.xml:/archivesspace/solr/schema.xml
         - ./data:/archivesspace/data
         - ./logs:/archivesspace/logs
         - ./config.rb:/archivesspace/config/config.rb
