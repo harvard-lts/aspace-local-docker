@@ -25,6 +25,7 @@ services:
         - ./logs:/archivesspace/logs
         - ./config.rb:/archivesspace/config/config.rb
         - ./plugins:/archivesspace/plugins
+        - ./solr/schema.xml:/archivesspace/solr/schema.xml
         # - /docker/aspace/aspace/config/migration_check:/archivesspace/migration_check
     networks:
         - aspace-local
