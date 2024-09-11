@@ -17,7 +17,7 @@ services:
         - "solr"
     environment:
         - ASPACE_JAVA_XMX=-Xmx12000m
-        # - RUN_PLUGIN_INIT=true
+        - RUN_PLUGIN_INIT=true
     env_file:
         - "./local.env"
     volumes:
@@ -26,6 +26,7 @@ services:
         - ./config.rb:/archivesspace/config/config.rb
         - ./plugins:/archivesspace/plugins
         - ./solr/schema.xml:/archivesspace/solr/schema.xml
+        - ./solr/solrconfig.xml:/archivesspace/solr/solrconfig.xml
         # - /docker/aspace/aspace/config/migration_check:/archivesspace/migration_check
     networks:
         - aspace-local

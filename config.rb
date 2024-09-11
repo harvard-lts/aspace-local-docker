@@ -123,7 +123,7 @@ AppConfig[:solr_params] = { "q.op" => "AND", "bq" => proc { "primary_type:resour
 #AppConfig[:locale] = :en
 
 ## Plug-ins to load. They will load in the order specified
-AppConfig[:plugins] = ['local','refid_rules', 'aspace-omniauth-cas', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports', 'quoted_types_fix']
+AppConfig[:plugins] = ['local','refid_rules', 'aspace-hvd-pui', 'request_list', 'harvard_request_list_customizations', 'aspace-jsonmodel-from-format', 'nla_accession_reports', 'aspace-ead-xform', 'aspace-event-cleanup', 'harvard_aspace_reports', 'quoted_types_fix']
 #
 ## The number of concurrent threads available to run background jobs
 ## Introduced for AR-1619 - long running jobs were blocking the queue
@@ -613,26 +613,15 @@ AppConfig[:pui_email_enabled] = false
 #AppConfig[:pui_request_use_repo_email] = false
 #
 ## Example sendmail configuration:
-## AppConfig[:pui_email_delivery_method] = :sendmail
-## AppConfig[:pui_email_sendmail_settings] = {
-##   location: '/usr/sbin/sendmail',
-##   arguments: '-i'
-## }
-##AppConfig[:pui_email_perform_deliveries] = true
-##AppConfig[:pui_email_raise_delivery_errors] = true
-## Example SMTP configuration:
-##AppConfig[:pui_email_delivery_method] = :smtp
-##AppConfig[:pui_email_smtp_settings] = {
-##      address:              'smtp.gmail.com',
-##      port:                 587,
-##      domain:               'gmail.com',
-##      user_name:            '<username>',
-##      password:             '<password>',
-##      authentication:       'plain',
-##      enable_starttls_auto: true,
-##}
-##AppConfig[:pui_email_perform_deliveries] = true
-##AppConfig[:pui_email_raise_delivery_errors] = true
+AppConfig[:global_email_from_address] = "aspace@noreply.harvard.edu"
+# AppConfig[:email_delivery_method] = :sendmail
+# AppConfig[:email_sendmail_settings] = {
+#AppConfig[:email_perform_deliveries] = true
+#AppConfig[:email_raise_delivery_errors] = true
+#AppConfig[:email_delivery_method] = :smtp
+#AppConfig[:email_smtp_settings] = {
+#AppConfig[:email_perform_deliveries] = true
+#AppConfig[:email_raise_delivery_errors] = true
 #
 ##The number of characters to truncate before showing the 'Read More' link on notes
 #AppConfig[:pui_readmore_max_characters] = 450
@@ -811,3 +800,28 @@ AppConfig[:agent_records_default_publish] = false
 # tab will be active by default; if 'false' item description tab will be active.
 # AppConfig[:pui_page_actions_cite] must be set to true for this to take effect.
 AppConfig[:pui_active_citation_tab_item] = false
+
+AppConfig[:db_pool_timeout] = 5 # number of seconds to wait before raising a PoolTimeout error
+
+# Set the font used to generate PDFs in the PUI
+AppConfig[:pui_pdf_font_files] = ["KurintoText-Rg.ttf",
+                                  "KurintoText-Bd.ttf",
+                                  "KurintoText-It.ttf",
+                                  "KurintoTextJP-Rg.ttf",
+                                  "KurintoTextJP-Bd.ttf",
+                                  "KurintoTextJP-It.ttf",
+                                  "KurintoTextKR-Rg.ttf",
+                                  "KurintoTextKR-Bd.ttf",
+                                  "KurintoTextKR-It.ttf",
+                                  "KurintoTextSC-Rg.ttf",
+                                  "KurintoTextSC-Bd.ttf",
+                                  "KurintoTextSC-It.ttf",
+                                  "NotoSerif-Regular.ttf",
+                                  "NotoSerif-Bold.ttf",
+                                  "NotoSerif-Italic.ttf"]
+AppConfig[:pui_pdf_font_name] = "Kurinto Text,Kurinto Text JP,Kurinto Text KR,Kurinto Text SC,Noto Serif"
+AppConfig[:pui_pdf_paragraph_line_height] = "125%"
+AppConfig[:pui_pdf_title_line_height] = "140%"
+
+# Password recovery - requires email configuration
+AppConfig[:allow_password_reset] = false
