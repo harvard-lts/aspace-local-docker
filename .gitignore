@@ -6,3 +6,4 @@ plugins/*
 db/
 solr_data/*
 !/solr_data/.keep
+*.sql
