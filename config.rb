@@ -132,13 +132,9 @@ AppConfig[:plugins] = ['local','refid_rules', 'aspace-hvd-pui', 'request_list', 
 #
 ## OAI configuration options
 #AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
-#AppConfig[:oai_ead_options] = {}
+# Example: 
+AppConfig[:oai_ead_options] = { :include_daos => true, :use_numbered_c_tags => false, :include_uris => false }
 
-## alternate example:  AppConfig[:oai_ead_options] = { :include_daos => true, :use_numbered_c_tags => true }
-AppConfig[:oai_ead_options] = {
-          :include_daos => true,
-          :use_numbered_c_tags => false
-          }
 #
 ###
 ### Other less commonly changed settings are below
@@ -822,6 +818,6 @@ AppConfig[:pui_pdf_font_files] = ["KurintoText-Rg.ttf",
 AppConfig[:pui_pdf_font_name] = "Kurinto Text,Kurinto Text JP,Kurinto Text KR,Kurinto Text SC,Noto Serif"
 AppConfig[:pui_pdf_paragraph_line_height] = "125%"
 AppConfig[:pui_pdf_title_line_height] = "140%"
-
+AppConfig[:solr_verify_checksums] = false
 # Password recovery - requires email configuration
 AppConfig[:allow_password_reset] = false
