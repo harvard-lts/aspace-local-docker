@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Solr managed schema - automatically generated - DO NOT EDIT -->
-<schema name="archivesspace" version="1.5">
+<schema name="archivesspace" version="1.6">
   <uniqueKey>id</uniqueKey>
   <fieldType name="binary" class="solr.BinaryField"/>
   <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
@@ -102,7 +102,9 @@
   <field name="first_term_type" type="string" multiValued="false" indexed="true" stored="true"/>
   <field name="floor" type="string" multiValued="false" indexed="true" stored="true"/>
   <field name="four_part_id" type="text_general" multiValued="false" indexed="true" stored="true"/>
-  <field name="fullrecord" type="text_general" multiValued="false" indexed="true" stored="false"/>
+  <field name="fullrecord" type="text_general" indexed="true" stored="false" multiValued="true" />
+  <field name="fullrecord_published" type="text_general" indexed="true" stored="false" multiValued="true" />
+  <copyField source="fullrecord_published" dest="fullrecord" />
   <field name="has_classification_terms" type="boolean" multiValued="false" indexed="true" stored="true"/>
   <field name="id" type="string" multiValued="false" indexed="true" required="true" stored="true"/>
   <field name="identifier" type="sort_icu" multiValued="false" indexed="true" stored="true"/>
@@ -119,11 +121,16 @@
   <field name="last_modified_by" type="string" multiValued="false" indexed="true" stored="true"/>
   <field name="level" type="string" multiValued="false" indexed="true" stored="true"/>
   <field name="linked_agent_roles" type="string" multiValued="true" indexed="true" stored="true"/>
+  <field name="linked_record_titles" type="string" indexed="true" stored="true" multiValued="true" />
   <field name="linked_instance_uris" type="string" multiValued="true" indexed="true" stored="true"/>
   <field name="linked_record_uris" type="string" multiValued="true" indexed="true" stored="true"/>
   <field name="location_uris" type="string" multiValued="true" indexed="true" stored="true"/>
   <field name="node_uri" type="string" multiValued="false" indexed="true" stored="true"/>
-  <field name="notes" type="text_general" multiValued="false" indexed="true" stored="true"/>
+  <!-- why are notes stored? (public app gets them from json for display) probably to support highlighting a long time ago -->
+  <!-- https://github.com/archivesspace/archivesspace/commit/87b7270f11456e0db329c45404333a1ce68419b8 -->
+  <field name="notes" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="notes_published" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <copyField source="notes_published" dest="notes" />
   <field name="outcome" type="string" multiValued="false" indexed="true" stored="true"/>
   <field name="owner" type="string" multiValued="false" indexed="true" stored="true"/>
   <field name="parent_id" type="string" multiValued="false" indexed="true" required="false" stored="true"/>
